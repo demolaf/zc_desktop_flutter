@@ -1,0 +1,42 @@
+name: Flutter CI
+
+# This workflow is triggered on pushes to the repository.
+
+on:
+  push:
+
+  pull_request:
+    branches:
+    - main
+    - master
+    - dev
+    - set_up_github_workflow
+
+jobs:
+  build:
+    # This job will run on ubuntu virtual machine
+    runs-on: ubuntu-latest
+
+    steps:
+      # The branch or tag ref that triggered the workflow will be checked out.
+        # https://github.com/actions/checkout
+        - uses: actions/checkout@v1
+        # Setup the flutter environment.
+        - uses: subosito/flutter-action@v1
+          with:
+            channel: 'stable' # 'dev', 'alpha', default to: 'stable'
+            # flutter-version: '1.12.x' # you can also specify exact version of flutter
+
+        - run: flutter clean
+        - run: flutter pub get
+        - run: flutter pub run build_runner build --delete-conflicting-outputs
+        - run: flutter format .
+        #- run: flutter analyze
+        - run: flutter test
+        - run: flutter build windows --debug
+
+        # Upload generated apk to the artifacts.
+        - uses: actions/upload-artifact@v1
+          with:
+            name: zc_desktop_flutter
+            path: build/windows/runner/Debug/zc_desktop_flutter.exe
