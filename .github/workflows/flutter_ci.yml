@@ -4,13 +4,13 @@ name: Flutter CI
 
 on:
   push:
+  pull:
 
   pull_request:
     branches:
     - main
     - master
     - dev
-    - set_up_github_workflow
 
 jobs:
   build:
