@@ -4,7 +4,6 @@ name: Flutter CI
 
 on:
   push:
-  pull:
 
   pull_request:
     branches:
