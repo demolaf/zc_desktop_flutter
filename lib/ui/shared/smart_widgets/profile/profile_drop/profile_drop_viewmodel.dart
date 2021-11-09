@@ -1,5 +1,7 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:zc_desktop_flutter/constants/app_asset_paths.dart';
+import 'package:zc_desktop_flutter/constants/app_strings.dart';
 import 'package:zc_desktop_flutter/model/app_models.dart';
 import 'package:zc_desktop_flutter/services/auth_service.dart';
 import 'package:zc_desktop_flutter/app/app.locator.dart';
@@ -38,10 +40,10 @@ class ProfileDropdownViewModel extends BaseViewModel {
     orgId: '',
     firstName: '',
     lastName: '',
-    displayName: 'perpKate',
+    displayName: profileCurrentName,
     bio: '',
     phone: '',
-    img: 'assets/images/mark.jpg',
+    img: profileCurrentImg,
     pronouns: '',
     timeZone: '',
     createdAt: '',
@@ -80,8 +82,9 @@ class ProfileDropdownViewModel extends BaseViewModel {
   //   _navigationService.navigateTo(OrganizationViewRoutes.profileShowView, id:0);
   // }
 
-  void signOut() {
+  void signOut() async {
     _authService.logOut(_userService.auth.user!.token.toString());
+    await Future.delayed(Duration(milliseconds: 500));
     _navigationService.pushNamedAndRemoveUntil(Routes.loginView);
   }
 }
